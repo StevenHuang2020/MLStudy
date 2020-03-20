@@ -1,7 +1,7 @@
 #python3 multiple variables linear regression
 import numpy as np
 import matplotlib.pyplot as plt
-from common import getData,computeCost,gradientDescent,plotLoss
+from common import *
 
 def featureNormalize(X):
     mu = np.mean(X, axis=0)
