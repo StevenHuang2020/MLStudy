@@ -11,7 +11,6 @@ single feature and mutiple features linearregression.
 <img src="images/linearRegre.png" width="320" height="240">
 <br/>
 2)logicRegression
-this is classifier
 <br/>
 <img src="images/logisticCLF.png" width="320" height="240">
 <img src="images/logisticCLF2.png" width="320" height="240">
