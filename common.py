@@ -10,11 +10,9 @@ def getDataTxt(file,labelEndCol=True): #labelEndCol: label values at last/first 
         X = data[:, :-1]
         y = data[:, -1]
     else:
-        X = data[:, 1]
+        X = data[:, 0]
         y = data[:, 1:]
 
-    #print(X[:3])
-    #print(y[:3])
     print('X.shape = ', X.shape)
     print('y.shape = ', y.shape)
     return X,y
