@@ -56,21 +56,43 @@ def predict(theta, X):
     prob = sigmoid(np.dot(X_train, theta))
     return (prob >= 0.5).astype(int)
 
+def TrainGradientDescent(X, y, theta, lr = 0.01, num_iters=10): #gradient descent training
+    loss_ = np.zeros(num_iters)
+    for i in range(num_iters):
+        loss,gradient = costFunction(theta,X,y)
+
+        theta = theta - lr*gradient
+        loss_[i] = loss
+
+        if i % 100 == 0:
+            print('epoch:',i,'gradient=',gradient,end='')
+            for j in range(theta.shape[0]):
+                print(' theta',j,'=',theta[j],',',end='')
+            print('loss=',loss_[i])
+
+    print(theta)
+    return theta, loss_
+
 def train(X,y): #logistic regression
     X_train = np.hstack((np.ones((X.shape[0], 1)), X))
     theta = np.array([0, 0, 0])
-    J, grad = costFunction(theta, X_train, y)
-    print(J)  # 0.693
-    print(grad)
+    #J, grad = costFunction(theta, X_train, y)
+    #print(J,grad)  # 0.693
 
-    res = optimize.minimize(fun=cost, x0=theta, args=(X_train, y),
-                        method='Newton-CG', jac=gradient)
-    print(res.fun)  # 0.203
-    print(res.x)  # -25.161 0.206 0.201
-    plotDecisionBoundary(res.x, X, y)
+    if 0:#use optimize
+        res = optimize.minimize(fun=cost, x0=theta, args=(X_train, y),
+                            method='Newton-CG', jac=gradient)
+        print(res.fun)  # 0.203
+        print(res.x)  # -25.161 0.206 0.201
+        theta = res.x
+    else: #gradient descent
+        theta,loss_ = TrainGradientDescent(X_train,y,theta,lr=0.01,num_iters=400)
 
-    accuracy = np.mean(predict(res.x,X)==y)
+    #plotDecisionBoundary(theta, X, y)
+    plotDecisionBoundary(theta, X, y,label1='Iris-versicolor',label2='Iris-setosa',f1='sepal length',f2='sepal weight')
+    accuracy = np.mean(predict(theta,X)==y)
     print('acc=',accuracy)
+    #plotLoss(loss_)
     pass
 
 def getIrisData():
