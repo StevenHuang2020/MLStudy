@@ -1,14 +1,15 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from scipy import optimize
 from common import *
 
-def plotData(X,y):
+def plotData(X,y,label1='Admitted',label2='Not admitted',f1='Exam 1 score',f2='Exam 2 score'):
     plt.figure()
-    plt.scatter(X[y == 1][:, 0], X[y == 1][:, 1], label="Admitted")
-    plt.scatter(X[y == 0][:, 0], X[y == 0][:, 1], label="Not admitted")
-    plt.xlabel("Exam 1 score")
-    plt.ylabel("Exam 2 score")
+    plt.scatter(X[y == 1][:, 0], X[y == 1][:, 1], label=label1)
+    plt.scatter(X[y == 0][:, 0], X[y == 0][:, 1], label=label2)
+    plt.xlabel(f1)
+    plt.ylabel(f2)
     plt.legend()
     plt.show()
 
@@ -20,6 +21,7 @@ def costFunction(theta, X, y):
 
 def cost(theta, X, y):
     h = sigmoid(np.dot(X, theta))
+    #print('minh=', np.min(h))
     J = - (np.dot(y, np.log(h)) + np.dot(1 - y, np.log(1 - h))) / X.shape[0]
     return J
 
@@ -28,9 +30,12 @@ def gradient(theta, X, y):
     grad = np.dot(X.T, h - y) / X.shape[0]
     return grad
 
-def plotDecisionBoundary(theta, X, y):
-    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+def plotDecisionBoundary(theta, X, y,label1='Admitted',label2='Not admitted',f1='Exam 1 score',f2='Exam 2 score'):
+    #x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    #y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    x_min, x_max = X[:, 0].min(), X[:, 0].max()
+    y_min, y_max = X[:, 1].min(), X[:, 1].max()
+
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
                          np.arange(y_min, y_max, 0.1))
     X_plot = np.c_[xx.ravel(), yy.ravel()]
@@ -38,11 +43,11 @@ def plotDecisionBoundary(theta, X, y):
     y_plot = np.dot(X_plot, theta).reshape(xx.shape)
     
     plt.figure()
-    plt.scatter(X[y == 1][:, 0], X[y == 1][:, 1], label="Admitted")
-    plt.scatter(X[y == 0][:, 0], X[y == 0][:, 1], label="Not admitted")
+    plt.scatter(X[y == 1][:, 0], X[y == 1][:, 1], label=label1)
+    plt.scatter(X[y == 0][:, 0], X[y == 0][:, 1], label=label2)
     plt.contour(xx, yy, y_plot, levels=[0])
-    plt.xlabel("Exam 1 score")
-    plt.ylabel("Exam 2 score")
+    plt.xlabel(f1)
+    plt.ylabel(f2)
     plt.legend()
     plt.show()
 
@@ -68,9 +73,31 @@ def train(X,y): #logistic regression
     print('acc=',accuracy)
     pass
 
+def getIrisData():
+    '''To do a binary classifier use iris dataset 1~100 samples'''
+    data = pd.read_csv('./res/iris.data')
+    #print(data.head())
+
+    #X = data.iloc[:100,:-1]
+    X = data.iloc[:100,:2].to_numpy()
+    y = data.iloc[:100,-1].to_numpy()
+
+    y = np.where(y == 'Iris-setosa',0,1)
+    #print(X[:5])
+    #print(y[:5])
+    #print(X[y == 1].iloc[:,0])
+    #print(X[y == 0].iloc[:,1])
+    print('X.shape = ', X.shape,type(X))
+    print('y.shape = ', y.shape,type(y))
+    return X,y
+
 def main():
-    X,y = getDataTxt('./res/ex2data1.txt')
+    #X,y = getDataTxt('./res/ex2data1.txt')
     #plotData(X,y)
+
+    X,y = getIrisData()
+    plotData(X,y,label1='Iris-versicolor',label2='Iris-setosa',f1='sepal length',f2='sepal weight')
+
     train(X,y)
     pass
 
