@@ -13,9 +13,8 @@ single feature and mutiple features linearregression.
 2)logicRegression
 <br/>
 <img src="images/logisticCLF.png" width="320" height="240">
-<img src="images/logisticCLF2.png" width="320" height="240">
-<br/>
-<br/>
 <img src="images/logisticCLF_Iris1.png" width="320" height="240">
 <img src="images/logisticCLF_Iris2.png" width="320" height="240">
+<img src="images/logisticCLF2.png" width="320" height="240">
+<img src="images/logisticCLF2_regul.png" width="320" height="240">
 <br/>
