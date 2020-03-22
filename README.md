@@ -16,4 +16,6 @@ single feature and mutiple features linearregression.
 <img src="images/logisticCLF_Iris1.png" width="320" height="240">
 <img src="images/logisticCLF_Iris2.png" width="320" height="240">
 <img src="images/logisticCLF2.png" width="320" height="240">
+<img src="images/logisticCLF2_normal.png" width="320" height="240">
+<img src="images/logisticCLF2_regul.png" width="320" height="240">
 <br/>
