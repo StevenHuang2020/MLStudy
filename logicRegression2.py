@@ -53,7 +53,7 @@ def predict(theta, X):
     prob = sigmoid(np.dot(X_train, theta))
     return (prob >= 0.5).astype(int)
 
-def plotDecisionBoundary1(theta, X, y,ax=None):
+def plotDecisionBoundary1(theta, X, y, ax, title):
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.05),
@@ -65,8 +65,9 @@ def plotDecisionBoundary1(theta, X, y,ax=None):
     ax.scatter(X[y == 1][:, 0], X[y == 1][:, 1], label="y = 1")
     ax.scatter(X[y == 0][:, 0], X[y == 0][:, 1], label="y = 0")
     ax.contour(xx, yy, y_plot, levels=[0])
-    ax.set_xlabel("Microchip Test 1")
-    ax.set_ylabel("Microchip Test 2")
+    #ax.set_xlabel("Microchip Test 1")
+    #ax.set_ylabel("Microchip Test 2")
+    ax.set_title(title)
     ax.set_xlim(-1.5, 1.5)
     ax.set_ylim(-1.5, 1.5)
     ax.legend()
@@ -92,6 +93,23 @@ def plotDecisionBoundary(theta, X, y):
     plt.legend()
     plt.show()
 
+def TrainGradientDescent(X, y, theta, lam, lr = 0.01, num_iters=10): #gradient descent training
+    loss_ = np.zeros(num_iters)
+    for i in range(num_iters):
+        loss,gradient = costFunctionReg(theta,X,y,lam)
+
+        theta = theta - lr*gradient
+        loss_[i] = loss
+
+        if i % 100 == 0:
+            #print('epoch:',i,'gradient=',gradient,end='')
+            #for j in range(theta.shape[0]):
+                #print(' theta',j,'=',theta[j],',',end='')
+            print('loss=',loss_[i])
+
+    print(theta)
+    return theta, loss_
+    
 def main():
     X,y = getDataTxt('./res/ex2data2.txt')
     plotData(X, y)
@@ -99,35 +117,25 @@ def main():
     print('X_train.shape=', X_train.shape)
     #print(X_train[:5])
 
-    if 0:
-        lam = 1
+    if 1:
+        lam = 1 #1 0
         theta = np.zeros(X_train.shape[1])
-        print('theta.shape=', theta.shape)
-        J, grad = costFunctionReg(theta, X_train, y, lam)
-        print(J)  # 0.693
-        print('grad.shape = ', grad.shape)
-        print(grad[:5])
-
-    lamList=[1,0,100] #normal, overfitting, underfitting
-    if 0:
-        lam = 100 #1 0
-        theta = np.zeros(X_train.shape[1])
-        res = optimize.minimize(fun=cost, x0=theta, args=(X_train, y, lam),
-                                method='Newton-CG', jac=gradient)
-        print(res.fun)
-        print(res.x[:5])
-
-        acc = np.mean(predict(res.x, X) == y)
+        
+        fTheta,loss_ = TrainGradientDescent(X_train, y, theta, lam, lr = 0.1, num_iters=1000)
+        
+        acc = np.mean(predict(fTheta, X) == y)
         print('acc = ',acc)
-        plotDecisionBoundary(res.x, X, y)
+        plotDecisionBoundary(fTheta, X, y)
     else:
+        lamList=[1,0,100] #normal, overfitting, underfitting
+        titles=['normal', 'overfitting', 'underfitting']
         for i,lam in enumerate(lamList):
             theta = np.zeros(X_train.shape[1])
             res = optimize.minimize(fun=cost, x0=theta, args=(X_train, y, lam),
                                     method='Newton-CG', jac=gradient)
 
             ax = plt.subplot(2, 2, i+1)
-            plotDecisionBoundary1(res.x, X, y,ax)
+            plotDecisionBoundary1(res.x, X, y,ax,titles[i])
         plt.show()
     #train(X, y)
     pass
