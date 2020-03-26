@@ -19,3 +19,9 @@ single feature and mutiple features linearregression.
 <img src="images/logisticCLF2_normal.png" width="320" height="240">
 <img src="images/logisticCLF2_3.png" width="320" height="240">
 <br/>
+
+3)Perceptron_Iris.py and stochasticGD.py(SGD)
+<br/>
+<img src="images/perceptron.png" width="320" height="240">
+<img src="images/perceptronSGD.png" width="320" height="240">
+<br/>
