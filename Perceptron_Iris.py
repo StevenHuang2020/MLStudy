@@ -6,11 +6,11 @@ from matplotlib.colors import ListedColormap
 from Perceptron import *
 
 def train(X,y):
-    model = Perceptron(eta=0.1,n_iter=20)
+    model = Perceptron(eta=0.001,n_iter=400)
     res = model.fit(X, y)
 
     print("w=", res.w_)
-    print("errors=", res.errors_)
+    #print("errors=", res.errors_)
     #showAfterTrainingErrors(res.errors_)
     return model
 
