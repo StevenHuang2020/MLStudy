@@ -1,13 +1,13 @@
 
 # Machine Learning basic principle study 
-Only use simple python, without using recondite libs like scikitlearn/keras/tensorflow...
+Only use simple python, without using recondite libs like Scikit-learn/Keras/Tensorflow...
 <br/>
 Reference: https://github.com/qinhanmin2014/machine-learning-Andrew-Ng
 --------------------------------------------------------------------------
 #### MLStudy
 
 1)LinearRegression1 and LinearRegressionMul
-single feature and mutiple features linearregression.
+single feature and multiple features linear regression.
 <br/>
 <img src="images/linearRegre.png" width="320" height="240">
 <br/>
